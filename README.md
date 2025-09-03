@@ -1,36 +1,182 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💒 Wedding Invitation App
 
-## Getting Started
+A modern, personalized wedding invitation web application built with Next.js 15, React 19, Tailwind CSS, and PostgreSQL.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Personalized Guest Pages**: Each guest gets a unique, personalized invitation
+- **RSVP Management**: Easy RSVP submission with dietary restrictions and plus-one handling
+- **Admin Dashboard**: Complete guest management and RSVP tracking
+- **Modern UI**: Beautiful, responsive design with Tailwind CSS
+- **Database Integration**: PostgreSQL with Prisma ORM for data persistence
+- **Performance Optimized**: Built with Next.js 15 for optimal performance
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ 
+- PostgreSQL database
+- pnpm (recommended) or npm
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd wedding-invitation
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Update `.env` with your database credentials:
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/wedding_invitation?schema=public"
+   NEXTAUTH_SECRET="your-secret-key-here"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+4. **Set up the database**
+   ```bash
+   # Generate Prisma client
+   pnpm db:generate
+   
+   # Push schema to database
+   pnpm db:push
+   
+   # Seed with sample data
+   pnpm db:seed
+   ```
+
+5. **Start the development server**
+   ```bash
+   pnpm dev
+   ```
+
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 📁 Project Structure
+
+```
+app/
+├── (auth)/              # Admin authentication routes
+│   ├── login/           # Admin login page
+│   └── admin/           # Admin dashboard
+├── (guest)/             # Guest-facing routes
+│   ├── [guestId]/       # Personalized guest pages
+│   └── rsvp/            # RSVP form
+├── api/                 # API endpoints
+│   ├── auth/            # Authentication APIs
+│   ├── guests/          # Guest management APIs
+│   └── rsvp/            # RSVP APIs
+├── components/          # Reusable UI components
+├── lib/                 # Utility functions and database
+├── prisma/              # Database schema and migrations
+└── public/              # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗄️ Database Schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Models
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Guest**: Guest information and unique links
+- **RSVP**: RSVP responses with dietary restrictions
+- **AdminUser**: Admin authentication
 
-## Learn More
+### Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- Unique guest links for personalized invitations
+- RSVP status tracking
+- Dietary restrictions and plus-one management
+- Optimized indexes for performance
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### For Guests
 
-## Deploy on Vercel
+1. **Access Invitation**: Visit `/guest-unique-link`
+2. **View Details**: See personalized wedding information
+3. **Submit RSVP**: Fill out the RSVP form with preferences
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### For Admins
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Login**: Access `/login` with admin credentials
+2. **Dashboard**: View guest statistics and RSVP status
+3. **Manage Guests**: Add, edit, and track guest information
+
+## 🛠️ Development
+
+### Available Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint
+- `pnpm format` - Format code with Prettier
+- `pnpm db:generate` - Generate Prisma client
+- `pnpm db:push` - Push schema to database
+- `pnpm db:seed` - Seed database with sample data
+- `pnpm db:studio` - Open Prisma Studio
+
+### Code Quality
+
+- **ESLint**: TypeScript and Next.js rules
+- **Prettier**: Consistent code formatting
+- **Husky**: Pre-commit hooks for quality assurance
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Environment Variables
+
+- `DATABASE_URL`: PostgreSQL connection string
+- `NEXTAUTH_SECRET`: Authentication secret key
+- `NEXTAUTH_URL`: Your application URL
+
+## 📊 Performance
+
+- **Lighthouse Score**: Target >90 for all categories
+- **Core Web Vitals**: Optimized for best user experience
+- **Database**: Indexed queries for fast response times
+- **Caching**: Next.js built-in caching strategies
+
+## 🔒 Security
+
+- **Authentication**: NextAuth.js for admin access
+- **Input Validation**: Server-side validation for all inputs
+- **SQL Injection**: Protected with Prisma ORM
+- **Environment Variables**: Secure configuration management
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support or questions, please open an issue in the GitHub repository.
+
+---
+
+**Built with ❤️ for special moments**

@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Guest {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  relationship String?
+  uniqueLink  String   @unique
+  rsvpStatus  RSVPStatus @default(PENDING)
+  plusOne     Boolean  @default(false)
+  plusOneName String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relationships
+  rsvp       RSVP?
+  
+  // Indexes for performance
+  @@index([email])
+  @@index([rsvpStatus])
+  @@map("guests")
+}
+
+model RSVP {
+  id                  String   @id @default(cuid())
+  guestId             String   @unique
+  attending           Boolean
+  guestCount          Int      @default(1)
+  dietaryRestrictions String?
+  plusOne             Boolean   @default(false)
+  plusOneName         String?
+  message             String?
+  submittedAt         DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  
+  // Relationships
+  guest               Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  
+  // Indexes for performance
+  @@index([attending])
+  @@index([submittedAt])
+  @@map("rsvps")
+}
+
+model WeddingSettings {
+  id                  String   @id
+  
+  // Couple Information
+  brideName           String
+  groomName           String
+  weddingDate         String
+  weddingTime         String
+  
+  // Venue Information
+  venueName           String
+  venueAddress        String
+  venueCity           String
+  venueState          String
+  venueZip            String
+  venueCountry        String
+  googleMapsUrl       String
+  
+  // Event Details
+  ceremonyTime        String
+  receptionTime       String
+  dressCode           String
+  
+  // Content
+  welcomeMessage      String
+  storyMessage        String
+  rsvpMessage         String
+  
+  // Images
+  couplePhoto         String
+  venuePhoto          String
+  preweddingPhotos    String[]
+  
+  // Contact
+  contactEmail        String
+  contactPhone        String
+  
+  // Additional Info
+  accommodationInfo   String
+  transportationInfo  String
+  giftInfo            String
+  
+  // Wedding Schedule
+  scheduleEvents      Json     // Object with separate arrays for each date: { "date1": [...], "date2": [...] }
+  weddingDate1        String?  // First wedding date (e.g., "December 26")
+  weddingDate2        String?  // Second wedding date (e.g., "December 27")
+  
+  // Timestamps
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  
+  @@map("wedding_settings")
+}
+
+enum RSVPStatus {
+  PENDING
+  ATTENDING
+  NOT_ATTENDING
+  RESPONDED
+}
