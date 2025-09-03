@@ -44,14 +44,14 @@ export default function RSVPForm({ guest }: RSVPFormProps) {
       })
 
       if (response.ok) {
-        setMessage("RSVP updated successfully!")
+        setMessage("Response updated successfully!")
         setShowForm(false)
         // Refresh the page after a short delay to show updated status
         setTimeout(() => {
           window.location.reload()
         }, 1500)
       } else {
-        setMessage("Failed to update RSVP. Please try again.")
+        setMessage("Failed to update response. Please try again.")
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.")
@@ -65,7 +65,7 @@ export default function RSVPForm({ guest }: RSVPFormProps) {
       <div className="space-y-4">
         <div className="p-4 bg-slate-700/50 rounded-lg border border-amber-300/30">
           <p className="text-amber-200/80 mb-2">
-            <strong>RSVP Status:</strong> {guest.rsvp.attending ? "Attending" : "Not Attending"}
+            <strong>Response Status:</strong> {guest.rsvp.attending ? "Attending" : "Not Attending"}
           </p>
           {guest.rsvp.attending && guest.rsvp.guestCount && (
             <p className="text-amber-200/70 text-sm">
@@ -81,7 +81,7 @@ export default function RSVPForm({ guest }: RSVPFormProps) {
           }}
           className="bg-amber-600 hover:bg-amber-700 text-slate-900 px-6 py-2 rounded-full text-sm font-semibold transition-colors"
         >
-          Update RSVP
+          Update Response
         </button>
       </div>
     )
@@ -91,7 +91,7 @@ export default function RSVPForm({ guest }: RSVPFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="text-lg font-semibold text-amber-100">RSVP</h4>
+          <h4 className="text-lg font-semibold text-amber-100">Wedding Response</h4>
           {guest.rsvp && (
             <button
               type="button"
@@ -169,7 +169,7 @@ export default function RSVPForm({ guest }: RSVPFormProps) {
             disabled={isSubmitting}
             className="w-full max-w-xs mx-auto bg-amber-500 hover:bg-amber-600 disabled:bg-amber-500/50 text-slate-900 px-8 py-3 rounded-full text-lg font-semibold transition-colors"
           >
-            {isSubmitting ? "Submitting..." : "Submit RSVP"}
+            {isSubmitting ? "Submitting..." : "Submit Response"}
           </button>
         )}
 

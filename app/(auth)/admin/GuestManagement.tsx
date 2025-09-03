@@ -93,7 +93,7 @@ export default function GuestManagement({ guests, onGuestUpdated }: GuestManagem
 
   const exportGuestList = () => {
     const csvContent = [
-      ['Name', 'Email', 'Phone', 'Relationship', 'RSVP Status', 'Plus One', 'Plus One Name', 'Unique Link'],
+      ['Name', 'Email', 'Phone', 'Relationship', 'Response Status', 'Plus One', 'Plus One Name', 'Unique Link'],
       ...guests.map(guest => [
         guest.name,
         guest.email || '',
@@ -181,7 +181,7 @@ export default function GuestManagement({ guests, onGuestUpdated }: GuestManagem
 
                   {/* RSVP Status */}
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">RSVP Status</label>
+                    <label className="text-sm font-medium text-muted-foreground">Response Status</label>
                     {editingGuest?.id === guest.id ? (
                       <Select
                         value={editForm.rsvpStatus}
@@ -318,7 +318,7 @@ export default function GuestManagement({ guests, onGuestUpdated }: GuestManagem
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Contact</TableHead>
-                <TableHead>RSVP Status</TableHead>
+                <TableHead>Response Status</TableHead>
                 <TableHead>Plus One</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>

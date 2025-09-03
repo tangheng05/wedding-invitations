@@ -101,7 +101,7 @@ export default function AdminDashboard({
                   <div className="ml-4 w-0 flex-1">
                     <dl>
                       <dt className="text-sm font-medium text-muted-foreground truncate">
-                        RSVPs Received
+                        Responses Received
                       </dt>
                       <dd className="text-lg font-medium">{attendingGuests}</dd>
                     </dl>
@@ -119,7 +119,7 @@ export default function AdminDashboard({
                   <div className="ml-4 w-0 flex-1">
                     <dl>
                       <dt className="text-sm font-medium text-muted-foreground truncate">
-                        Pending RSVPs
+                        Pending Responses
                       </dt>
                       <dd className="text-lg font-medium">{pendingGuests}</dd>
                     </dl>

@@ -160,32 +160,58 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
     }
   };
 
-  const handleImageUpload = (field: keyof WeddingSettings, files: FileList | null, event?: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (field: keyof WeddingSettings, files: FileList | null, event?: React.ChangeEvent<HTMLInputElement>) => {
     if (!files || files.length === 0) return;
     
-    if (field === 'preweddingPhotos') {
-      // Handle multiple files for pre-wedding photos
-      Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setSettings(prev => ({
-            ...prev,
-            preweddingPhotos: [...prev.preweddingPhotos, e.target?.result as string]
-          }));
-        };
-        reader.readAsDataURL(file);
-      });
-    } else {
-      // Handle single file for couple and venue photos
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
+    try {
+      if (field === 'preweddingPhotos') {
+        // Handle multiple files for pre-wedding photos
+        const uploadPromises = Array.from(files).map(async (file) => {
+          const formData = new FormData();
+          formData.append('file', file);
+          
+          const response = await fetch('/api/upload/image', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (!response.ok) {
+            throw new Error('Upload failed');
+          }
+          
+          const result = await response.json();
+          return result.url;
+        });
+        
+        const uploadedUrls = await Promise.all(uploadPromises);
         setSettings(prev => ({
           ...prev,
-          [field]: e.target?.result as string
+          preweddingPhotos: [...prev.preweddingPhotos, ...uploadedUrls]
         }));
-      };
-      reader.readAsDataURL(file);
+      } else {
+        // Handle single file for couple and venue photos
+        const file = files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const response = await fetch('/api/upload/image', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (!response.ok) {
+          throw new Error('Upload failed');
+        }
+        
+        const result = await response.json();
+        setSettings(prev => ({
+          ...prev,
+          [field]: result.url
+        }));
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload image. Please try again.');
     }
     
     // Clear the file input
@@ -218,7 +244,7 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
         <Tabs defaultValue="couple" className="flex-1 flex flex-col min-h-0">
           {/* Mobile-friendly tabs */}
           <div className="px-4 py-2 bg-slate-700/30 border-b border-amber-300/20 flex-shrink-0">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1 h-auto bg-slate-600/50">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1 h-auto bg-slate-600/50">
               <TabsTrigger value="couple" className="flex flex-col sm:flex-row items-center p-2 text-xs sm:text-sm text-amber-200/80 data-[state=active]:bg-amber-500 data-[state=active]:text-slate-900 hover:text-amber-100">
                 <Heart className="w-3 h-3 sm:w-4 sm:h-4 mb-1 sm:mb-0 sm:mr-2" />
                 <span className="hidden sm:inline">Couple</span>
@@ -229,11 +255,7 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
                 <span className="hidden sm:inline">Venue</span>
                 <span className="sm:hidden">Place</span>
             </TabsTrigger>
-              <TabsTrigger value="schedule" className="flex flex-col sm:flex-row items-center p-2 text-xs sm:text-sm text-amber-200/80 data-[state=active]:bg-amber-500 data-[state=active]:text-slate-900 hover:text-amber-100">
-                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mb-1 sm:mb-0 sm:mr-2" />
-                <span className="hidden sm:inline">Times</span>
-                <span className="sm:hidden">Time</span>
-            </TabsTrigger>
+
               <TabsTrigger value="content" className="flex flex-col sm:flex-row items-center p-2 text-xs sm:text-sm text-amber-200/80 data-[state=active]:bg-amber-500 data-[state=active]:text-slate-900 hover:text-amber-100">
                 <Image className="w-3 h-3 sm:w-4 sm:h-4 mb-1 sm:mb-0 sm:mr-2" />
                 <span className="hidden sm:inline">Content</span>
@@ -252,7 +274,7 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
               <TabsTrigger value="wedding-schedule" className="flex flex-col sm:flex-row items-center p-2 text-xs sm:text-sm text-amber-200/80 data-[state=active]:bg-amber-500 data-[state=active]:text-slate-900 hover:text-amber-100">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mb-1 sm:mb-0 sm:mr-2" />
                 <span className="hidden sm:inline">Schedule</span>
-                <span className="sm:hidden">Day</span>
+                <span className="sm:hidden">Time</span>
             </TabsTrigger>
           </TabsList>
           </div>
@@ -387,39 +409,7 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
               </div>
             </TabsContent>
 
-              <TabsContent value="schedule" className="space-y-4 mt-0">
-                <h3 className="settings-section-title">Event Schedule</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="ceremonyTime">Ceremony Time</Label>
-                  <Input
-                    id="ceremonyTime"
-                    type="time"
-                    value={settings.ceremonyTime}
-                    onChange={(e) => setSettings({ ...settings, ceremonyTime: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="receptionTime">Reception Time</Label>
-                  <Input
-                    id="receptionTime"
-                    type="time"
-                    value={settings.receptionTime}
-                    onChange={(e) => setSettings({ ...settings, receptionTime: e.target.value })}
-                  />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <Label htmlFor="dressCode">Dress Code</Label>
-                  <Input
-                    id="dressCode"
-                    type="text"
-                    value={settings.dressCode}
-                    onChange={(e) => setSettings({ ...settings, dressCode: e.target.value })}
-                    placeholder="e.g., Formal, Semi-formal, Casual"
-                  />
-                </div>
-              </div>
-            </TabsContent>
+
 
               <TabsContent value="content" className="space-y-4 mt-0">
                 <h3 className="settings-section-title">Content & Messages</h3>
@@ -445,13 +435,13 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="rsvpMessage">RSVP Message</Label>
+                  <Label htmlFor="rsvpMessage">Response Message</Label>
                   <Textarea
                     id="rsvpMessage"
                     value={settings.rsvpMessage}
                     onChange={(e) => setSettings({ ...settings, rsvpMessage: e.target.value })}
                     rows={3}
-                    placeholder="Message for RSVP section..."
+                    placeholder="Message for response section..."
                   />
                 </div>
               </div>
@@ -471,7 +461,11 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
                   />
                   {settings.couplePhoto && (
                     <div className="mt-2 relative inline-block">
-                      <img src={settings.couplePhoto} alt="Couple" className="w-32 h-32 object-cover rounded-md border" />
+                      <img 
+                        src={settings.couplePhoto.startsWith('/api/images/') ? settings.couplePhoto : `/api/images/${settings.couplePhoto.split('/').pop()}`} 
+                        alt="Couple" 
+                        className="w-32 h-32 object-cover rounded-md border" 
+                      />
                       <button
                         type="button"
                         onClick={() => handleRemoveImage('couplePhoto')}
@@ -495,7 +489,11 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
                   />
                   {settings.venuePhoto && (
                     <div className="mt-2 relative inline-block">
-                      <img src={settings.venuePhoto} alt="Venue" className="w-32 h-32 object-cover rounded-md border" />
+                      <img 
+                        src={settings.venuePhoto.startsWith('/api/images/') ? settings.venuePhoto : `/api/images/${settings.venuePhoto.split('/').pop()}`} 
+                        alt="Venue" 
+                        className="w-32 h-32 object-cover rounded-md border" 
+                      />
                       <button
                         type="button"
                         onClick={() => handleRemoveImage('venuePhoto')}
@@ -527,7 +525,7 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
                         {settings.preweddingPhotos.map((photo, index) => (
                           <div key={index} className="relative">
                             <img 
-                              src={photo} 
+                              src={photo.startsWith('/api/images/') ? photo : `/api/images/${photo.split('/').pop()}`} 
                               alt={`Pre-wedding ${index + 1}`} 
                               className="w-24 h-24 object-cover rounded-md border" 
                             />
@@ -614,10 +612,50 @@ export default function SettingsModal({ isOpen, onClose, onSettingsSaved }: Sett
             </TabsContent>
 
               <TabsContent value="wedding-schedule" className="space-y-4 mt-0">
-                <h3 className="settings-section-title">Wedding Day Schedule</h3>
+                <h3 className="settings-section-title">Wedding Schedule & Times</h3>
                 <p className="text-sm text-amber-200/70 mb-4">
-                  Manage the wedding day schedule events for each date. Add, edit, or remove events as needed.
+                  Set main event times and manage the detailed wedding day schedule events for each date.
                 </p>
+                
+                {/* Main Event Times */}
+                <div className="space-y-4 mb-6">
+                  <h4 className="text-md font-semibold text-amber-100 border-b border-amber-300/30 pb-2">
+                    Main Event Times
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="ceremonyTime" className="settings-label">Ceremony Time</Label>
+                      <Input
+                        id="ceremonyTime"
+                        type="time"
+                        value={settings.ceremonyTime}
+                        onChange={(e) => setSettings({ ...settings, ceremonyTime: e.target.value })}
+                        className="settings-input"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="receptionTime" className="settings-label">Reception Time</Label>
+                      <Input
+                        id="receptionTime"
+                        type="time"
+                        value={settings.receptionTime}
+                        onChange={(e) => setSettings({ ...settings, receptionTime: e.target.value })}
+                        className="settings-input"
+                      />
+                    </div>
+                    <div className="sm:col-span-2 space-y-2">
+                      <Label htmlFor="dressCode" className="settings-label">Dress Code</Label>
+                      <Input
+                        id="dressCode"
+                        type="text"
+                        value={settings.dressCode}
+                        onChange={(e) => setSettings({ ...settings, dressCode: e.target.value })}
+                        placeholder="e.g., Formal, Semi-formal, Casual"
+                        className="settings-input"
+                      />
+                    </div>
+                  </div>
+                </div>
                 
                 {/* Wedding Dates Configuration */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">

@@ -85,16 +85,11 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           <p className="text-xl text-amber-200/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Dear {guest.name}, we would be honored by your presence</p>
         </div>
 
-        {/* Countdown Timer */}
-        <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
-          <CountdownTimer weddingDate={weddingDate} />
-        </div>
-
         {/* Couple Photo */}
         {settings.couplePhoto && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8 text-center">
             <img
-              src={settings.couplePhoto || "/placeholder.svg"}
+              src={settings.couplePhoto.startsWith('/api/images/') ? settings.couplePhoto : `/api/images/${settings.couplePhoto.split('/').pop()}`}
               alt={`${settings.brideName} and ${settings.groomName}`}
               className="w-48 h-48 object-cover rounded-full mx-auto mb-6 shadow-lg border-4 border-amber-300/40"
             />
@@ -105,6 +100,11 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
             <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">as we celebrate our wedding</p>
           </div>
         )}
+
+        {/* Countdown Timer */}
+        <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
+          <CountdownTimer weddingDate={weddingDate} />
+        </div>
 
         {/* Welcome Message */}
         {settings.welcomeMessage && (
@@ -136,26 +136,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
                   hour12: true,
                 })}
               </p>
-              {settings.ceremonyTime && (
-                <p className="text-sm text-amber-200/60 mt-1 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
-                  Ceremony:{" "}
-                  {new Date(`2000-01-01T${settings.ceremonyTime}`).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
-              {settings.receptionTime && (
-                <p className="text-sm text-amber-200/60 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
-                  Reception:{" "}
-                  {new Date(`2000-01-01T${settings.receptionTime}`).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
+
             </div>
             <div className="text-center">
               <h3 className="text-xl font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Where</h3>
@@ -164,16 +145,9 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
             </div>
           </div>
 
-          {/* Dress Code */}
-          {settings.dressCode && (
-            <div className="text-center mb-6">
-              <p className="text-sm text-amber-200/70 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
-                <strong>Dress Code:</strong> {settings.dressCode}
-              </p>
-            </div>
-          )}
 
-          {/* RSVP Section */}
+
+          {/* Response Section */}
           <div className="text-center">
             <RSVPForm guest={guest} />
           </div>
@@ -190,9 +164,9 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         )}
 
         {/* Photo Gallery */}
-        {galleryPhotos.length > 0 && (
+        {galleryPhotos.length > 0 && galleryPhotos.some(photo => photo.src && photo.src.trim() !== '') && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
-            <PhotoGallery photos={galleryPhotos} title="Our Love Story" />
+            <PhotoGallery photos={galleryPhotos.filter(photo => photo.src && photo.src.trim() !== '')} title="Our Love Story" />
           </div>
         )}
 
