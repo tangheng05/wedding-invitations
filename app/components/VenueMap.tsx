@@ -86,18 +86,18 @@ export default function VenueMap({ venue, address, coordinates }: VenueMapProps)
 
   return (
     <div className="text-center">
-      <h3 className="text-2xl font-serif text-gray-800 mb-6">Location</h3>
-      <div className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 border border-pink-200">
-        <h4 className="text-xl font-semibold text-gray-800 mb-2">{venue}</h4>
-        <p className="text-gray-600 mb-4">{address}</p>
-        <div className="bg-white/50 rounded-lg p-4 mb-4">
-          <p className="text-gray-500 text-sm">Interactive map coming soon</p>
+      <h3 className="text-2xl font-serif text-amber-100 mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Location</h3>
+      <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl p-6">
+        <h4 className="text-xl font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">{venue}</h4>
+        <p className="text-amber-200/80 mb-4 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{address}</p>
+        <div className="bg-slate-700/50 rounded-lg p-4 mb-4">
+          <p className="text-amber-200/70 text-sm drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">Interactive map coming soon</p>
         </div>
         <a
           href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full font-semibold transition-colors"
+          className="inline-block bg-amber-500 hover:bg-amber-600 text-slate-900 px-6 py-2 rounded-full font-semibold transition-colors"
         >
           Open in Maps
         </a>

@@ -70,17 +70,17 @@ export default function CountdownTimer({ weddingDate }: CountdownTimerProps) {
 
   return (
     <div className="text-center">
-      <h3 className="text-2xl font-serif text-gray-800 mb-6">Countdown to Our Special Day</h3>
-      <div className="grid grid-cols-4 gap-4">
+      <h3 className="text-2xl font-serif text-amber-100 mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Countdown to Our Special Day</h3>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Days", value: timeLeft.days },
           { label: "Hours", value: timeLeft.hours },
-          { label: "Minutes", value: timeLeft.minutes },
-          { label: "Seconds", value: timeLeft.seconds },
+          { label: "Mins", value: timeLeft.minutes },
+          { label: "Secs", value: timeLeft.seconds },
         ].map((item) => (
-          <div key={item.label} className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-4 border border-pink-200">
-            <div className="text-3xl font-bold text-gray-800 mb-1">{item.value}</div>
-            <div className="text-gray-600 text-sm">{item.label}</div>
+          <div key={item.label} className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-3 sm:p-4 border border-pink-200 min-w-[80px]">
+            <div className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">{item.value}</div>
+            <div className="text-gray-600 text-xs sm:text-sm font-medium">{item.label}</div>
           </div>
         ))}
       </div>

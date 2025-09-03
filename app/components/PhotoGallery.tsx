@@ -48,11 +48,11 @@ export default function PhotoGallery({ photos, title = "Our Love Story" }: Photo
     <div className="w-full">
       {title && (
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-serif text-gray-800 mb-2">{title}</h3>
+          <h3 className="text-2xl font-serif text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">{title}</h3>
           <div className="flex items-center justify-center">
-            <Heart className="w-5 h-5 text-rose-500 mx-2" />
-            <span className="text-gray-600">Capturing our journey together</span>
-            <Heart className="w-5 h-5 text-rose-500 mx-2" />
+            <Heart className="w-5 h-5 text-amber-300 mx-2" />
+            <span className="text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">Capturing our journey together</span>
+            <Heart className="w-5 h-5 text-amber-300 mx-2" />
           </div>
         </div>
       )}

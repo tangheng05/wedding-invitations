@@ -6,6 +6,7 @@ import PhotoGallery from "@/app/components/PhotoGallery"
 import VenueMap from "@/app/components/VenueMap"
 import WeddingSchedule from "@/app/components/WeddingSchedule"
 import RSVPForm from "../../components/RSVPForm"
+import { ButterflySwarm } from "@/app/components/Butterfly"
 
 interface InvitationPageProps {
   params: { guestId: string }
@@ -42,32 +43,46 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
   }))
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: "url('/background/background-mobile2.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      {/* Overlay to ensure text readability */}
+      <div className="absolute inset-0 bg-purple-900/30 backdrop-blur-[2px]"></div>
+      
+      {/* Butterfly animations */}
+      <ButterflySwarm count={12} />
       {/* Back Button */}
       <div className="fixed top-4 left-4 z-50">
         <Link
           href={`/${guestId}`}
-          className="bg-slate-800/80 backdrop-blur-sm border border-amber-300/40 text-amber-200 px-4 py-2 rounded-full shadow-lg hover:bg-slate-700/80 transition-all duration-300 flex items-center space-x-2"
+          className="bg-slate-800/80 backdrop-blur-sm border border-amber-300/40 text-amber-200 px-3 py-2 rounded-full shadow-lg hover:bg-slate-700/80 transition-all duration-300 flex items-center space-x-2 text-sm"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          <span>Back to Landing</span>
+          <span className="hidden sm:inline">Back to Landing</span>
+          <span className="sm:hidden">Back</span>
         </Link>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto px-4 py-12 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-12">
           {/* Monogram */}
-          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-2 border-amber-300/60 bg-slate-800/40 backdrop-blur-sm flex items-center justify-center">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-full border-2 border-amber-300/60 bg-slate-800/40 backdrop-blur-sm flex items-center justify-center shadow-lg">
             <span className="text-3xl font-serif text-amber-200 font-bold">
               {settings.brideName?.[0]}{settings.groomName?.[0]}
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-serif text-amber-100 mb-4 tracking-wide">Wedding Invitation</h1>
-          <p className="text-xl text-amber-200/80">Dear {guest.name}, we would be honored by your presence</p>
+          <h1 className="text-4xl md:text-5xl font-serif text-amber-100 mb-4 tracking-wide drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">Wedding Invitation</h1>
+          <p className="text-xl text-amber-200/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Dear {guest.name}, we would be honored by your presence</p>
         </div>
 
         {/* Countdown Timer */}
@@ -83,11 +98,11 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
               alt={`${settings.brideName} and ${settings.groomName}`}
               className="w-48 h-48 object-cover rounded-full mx-auto mb-6 shadow-lg border-4 border-amber-300/40"
             />
-            <h2 className="text-3xl font-serif text-amber-100 mb-4 tracking-wide">
+            <h2 className="text-3xl font-serif text-amber-100 mb-4 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
               {settings.brideName} & {settings.groomName}
             </h2>
-            <p className="text-lg text-amber-200/80">Request the pleasure of your company</p>
-            <p className="text-lg text-amber-200/80">as we celebrate our wedding</p>
+            <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">Request the pleasure of your company</p>
+            <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">as we celebrate our wedding</p>
           </div>
         )}
 
@@ -95,8 +110,8 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         {settings.welcomeMessage && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
             <div className="text-center">
-              <h3 className="text-2xl font-serif text-amber-100 mb-4">Welcome</h3>
-              <p className="text-lg text-amber-200/80 leading-relaxed">{settings.welcomeMessage}</p>
+              <h3 className="text-2xl font-serif text-amber-100 mb-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Welcome</h3>
+              <p className="text-lg text-amber-200/80 leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.welcomeMessage}</p>
             </div>
           </div>
         )}
@@ -105,8 +120,8 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-amber-100 mb-2">When</h3>
-              <p className="text-lg text-amber-200/80">
+              <h3 className="text-xl font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">When</h3>
+              <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                 {weddingDate.toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",
@@ -114,7 +129,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
                   day: "numeric",
                 })}
               </p>
-              <p className="text-amber-200/70">
+              <p className="text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                 {new Date(`2000-01-01T${settings.weddingTime}`).toLocaleTimeString("en-US", {
                   hour: "numeric",
                   minute: "2-digit",
@@ -122,7 +137,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
                 })}
               </p>
               {settings.ceremonyTime && (
-                <p className="text-sm text-amber-200/60 mt-1">
+                <p className="text-sm text-amber-200/60 mt-1 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                   Ceremony:{" "}
                   {new Date(`2000-01-01T${settings.ceremonyTime}`).toLocaleTimeString("en-US", {
                     hour: "numeric",
@@ -132,7 +147,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
                 </p>
               )}
               {settings.receptionTime && (
-                <p className="text-sm text-amber-200/60">
+                <p className="text-sm text-amber-200/60 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                   Reception:{" "}
                   {new Date(`2000-01-01T${settings.receptionTime}`).toLocaleTimeString("en-US", {
                     hour: "numeric",
@@ -143,16 +158,16 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
               )}
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-amber-100 mb-2">Where</h3>
-              <p className="text-lg text-amber-200/80">{settings.venueName}</p>
-              <p className="text-amber-200/70">{venueAddress}</p>
+              <h3 className="text-xl font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Where</h3>
+              <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.venueName}</p>
+              <p className="text-amber-200/70 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{venueAddress}</p>
             </div>
           </div>
 
           {/* Dress Code */}
           {settings.dressCode && (
             <div className="text-center mb-6">
-              <p className="text-sm text-amber-200/70">
+              <p className="text-sm text-amber-200/70 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                 <strong>Dress Code:</strong> {settings.dressCode}
               </p>
             </div>
@@ -168,8 +183,8 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         {settings.storyMessage && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
             <div className="text-center">
-              <h3 className="text-2xl font-serif text-amber-100 mb-4">Our Story</h3>
-              <p className="text-lg text-amber-200/80 leading-relaxed">{settings.storyMessage}</p>
+              <h3 className="text-2xl font-serif text-amber-100 mb-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Our Story</h3>
+              <p className="text-lg text-amber-200/80 leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.storyMessage}</p>
             </div>
           </div>
         )}
@@ -217,24 +232,24 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         {/* Additional Information */}
         {(settings.accommodationInfo || settings.transportationInfo || settings.giftInfo) && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
-            <h3 className="text-2xl font-serif text-amber-100 mb-6 text-center">Additional Information</h3>
+            <h3 className="text-2xl font-serif text-amber-100 mb-6 text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Additional Information</h3>
             <div className="grid md:grid-cols-1 gap-6">
               {settings.accommodationInfo && (
                 <div>
-                  <h4 className="text-lg font-semibold text-amber-100 mb-2">Accommodation</h4>
-                  <p className="text-amber-200/80">{settings.accommodationInfo}</p>
+                  <h4 className="text-lg font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Accommodation</h4>
+                  <p className="text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.accommodationInfo}</p>
                 </div>
               )}
               {settings.transportationInfo && (
                 <div>
-                  <h4 className="text-lg font-semibold text-amber-100 mb-2">Transportation</h4>
-                  <p className="text-amber-200/80">{settings.transportationInfo}</p>
+                  <h4 className="text-lg font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Transportation</h4>
+                  <p className="text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.transportationInfo}</p>
                 </div>
               )}
               {settings.giftInfo && (
                 <div>
-                  <h4 className="text-lg font-semibold text-amber-100 mb-2">Gifts</h4>
-                  <p className="text-amber-200/80">{settings.giftInfo}</p>
+                  <h4 className="text-lg font-semibold text-amber-100 mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Gifts</h4>
+                  <p className="text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.giftInfo}</p>
                 </div>
               )}
             </div>
@@ -244,15 +259,15 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         {/* Contact Information */}
         {(settings.contactEmail || settings.contactPhone) && (
           <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
-            <h3 className="text-2xl font-serif text-amber-100 mb-6 text-center">Contact Us</h3>
+            <h3 className="text-2xl font-serif text-amber-100 mb-6 text-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Contact Us</h3>
             <div className="text-center space-y-2">
               {settings.contactEmail && (
-                <p className="text-lg text-amber-200/80">
+                <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                   <strong>Email:</strong> {settings.contactEmail}
                 </p>
               )}
               {settings.contactPhone && (
-                <p className="text-lg text-amber-200/80">
+                <p className="text-lg text-amber-200/80 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
                   <strong>Phone:</strong> {settings.contactPhone}
                 </p>
               )}
@@ -263,9 +278,9 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         {/* QR Code Section */}
         <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-300/30 rounded-2xl shadow-xl p-8 mb-8">
           <div className="text-center">
-            <h3 className="text-2xl font-serif text-amber-100 mb-4">Quick Access</h3>
-            <p className="text-amber-200/80 mb-6">Scan this QR code to easily access your invitation anytime</p>
-            <div className="inline-block p-4 bg-slate-700/50 rounded-lg border border-amber-300/30">
+            <h3 className="text-2xl font-serif text-amber-100 mb-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Quick Access</h3>
+            <p className="text-amber-200/80 mb-6 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">Scan this QR code to easily access your invitation anytime</p>
+            <div className="inline-block p-4 bg-slate-700/50 rounded-lg border border-amber-300/30 shadow-lg">
               <img
                 src={`/api/qr/${guest.id}`}
                 alt={`QR Code for ${guest.name}`}
@@ -273,7 +288,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
                 loading="lazy"
               />
             </div>
-            <p className="text-sm text-amber-200/60 mt-3">
+            <p className="text-sm text-amber-200/60 mt-3 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
               Share this page: <span className="font-mono text-xs break-all">{guest.uniqueLink}</span>
             </p>
           </div>
@@ -281,8 +296,8 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
 
         {/* Footer */}
         <div className="text-center text-amber-200/70">
-          <p>We can't wait to celebrate with you!</p>
-          {settings.rsvpMessage && <p className="mt-2 text-sm">{settings.rsvpMessage}</p>}
+          <p className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">We can't wait to celebrate with you!</p>
+          {settings.rsvpMessage && <p className="mt-2 text-sm drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">{settings.rsvpMessage}</p>}
         </div>
       </div>
     </div>
