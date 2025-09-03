@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./AuthProvider";
-import PerformanceMonitor from "./components/PerformanceMonitor";
+
 import { ThemeProvider } from "./ThemeProvider";
 
 const geistSans = Geist({
@@ -37,7 +37,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>{children}</AuthProvider>
-          <PerformanceMonitor />
         </ThemeProvider>
       </body>
     </html>
