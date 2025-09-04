@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card';
 
 interface CountdownTimerProps {
   weddingDate: Date | null;
@@ -19,30 +19,30 @@ export default function CountdownTimer({ weddingDate }: CountdownTimerProps) {
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   });
 
   useEffect(() => {
     if (!weddingDate) {
       return;
     }
-    
+
     const calculateTimeLeft = () => {
       const difference = weddingDate.getTime() - new Date().getTime();
-      
+
       if (difference > 0) {
         return {
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
+          seconds: Math.floor((difference / 1000) % 60),
         };
       } else {
         return {
           days: 0,
           hours: 0,
           minutes: 0,
-          seconds: 0
+          seconds: 0,
         };
       }
     };
@@ -62,25 +62,33 @@ export default function CountdownTimer({ weddingDate }: CountdownTimerProps) {
   if (!weddingDate) {
     return (
       <div className="text-center">
-        <h3 className="text-2xl font-serif text-gray-800 mb-4">Save the Date</h3>
+        <h3 className="text-2xl font-serif text-gray-800 mb-4">
+          Save the Date
+        </h3>
         <p className="text-gray-600">Wedding date coming soon!</p>
       </div>
-    )
+    );
   }
 
   return (
     <div className="text-center">
-      <h3 className="text-2xl font-serif text-amber-100 mb-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">Countdown to Our Special Day</h3>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: "Days", value: timeLeft.days },
-          { label: "Hours", value: timeLeft.hours },
-          { label: "Mins", value: timeLeft.minutes },
-          { label: "Secs", value: timeLeft.seconds },
-        ].map((item) => (
-          <div key={item.label} className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-3 sm:p-4 border border-pink-200 min-w-[80px]">
-            <div className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">{item.value}</div>
-            <div className="text-gray-600 text-xs sm:text-sm font-medium">{item.label}</div>
+          { label: 'Days', value: timeLeft.days },
+          { label: 'Hours', value: timeLeft.hours },
+          { label: 'Mins', value: timeLeft.minutes },
+          { label: 'Secs', value: timeLeft.seconds },
+        ].map(item => (
+          <div
+            key={item.label}
+            className="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-3 sm:p-4 border border-pink-200 min-w-[80px]"
+          >
+            <div className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">
+              {item.value}
+            </div>
+            <div className="text-gray-600 text-xs sm:text-sm font-medium">
+              {item.label}
+            </div>
           </div>
         ))}
       </div>

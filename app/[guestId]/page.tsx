@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import Image from "next/image"
 import Link from "next/link"
+import { ButterflySwarm } from "../components/Butterfly"
 
 interface GuestPageProps {
   params: { guestId: string }
@@ -51,6 +52,11 @@ export default async function GuestPage({ params }: GuestPageProps) {
         <div className="absolute top-64 right-24 w-2 h-2 bg-yellow-300 rounded-full opacity-60 animate-pulse delay-1500"></div>
         <div className="absolute bottom-40 left-1/4 w-1.5 h-1.5 bg-amber-300 rounded-full opacity-80 animate-pulse delay-700"></div>
         <div className="absolute bottom-56 right-1/3 w-1 h-1 bg-yellow-200 rounded-full opacity-60 animate-pulse delay-300"></div>
+      </div>
+
+      {/* Butterflies overlay */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-5">
+        <ButterflySwarm count={12} />
       </div>
 
       {/* Content */}

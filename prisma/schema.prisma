@@ -104,10 +104,11 @@ model WeddingSettings {
   contactEmail        String
   contactPhone        String
   
-  // Additional Info
-  accommodationInfo   String
-  transportationInfo  String
-  giftInfo            String
+  // Music
+  backgroundMusicUrl  String?
+  musicAutoPlay       Boolean  @default(false)
+  
+  // Additional Info (removed)
   
   // Wedding Schedule
   scheduleEvents      Json     // Object with separate arrays for each date: { "date1": [...], "date2": [...] }

@@ -110,9 +110,6 @@ async function main() {
       preweddingPhotos: [],
       contactEmail: 'contact@wedding.com',
       contactPhone: '555-123-4567',
-      accommodationInfo: 'Hotel recommendations will be provided closer to the date.',
-      transportationInfo: 'Parking is available at the venue. Shuttle service will be provided from the hotel.',
-      giftInfo: 'Your presence is the greatest gift. If you wish to give something, a contribution to our honeymoon fund would be appreciated.',
       scheduleEvents: { date1: [], date2: [] },
       weddingDate1: 'December 26',
       weddingDate2: 'December 27'
